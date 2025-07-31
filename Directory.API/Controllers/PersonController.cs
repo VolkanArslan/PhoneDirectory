@@ -1,3 +1,4 @@
+using Directory.Application.DTOs;
 using Directory.Application.Interfaces;
 using Directory.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -6,38 +7,45 @@ namespace Directory.API.Controllers;
 
 public class PersonController : ControllerBase
 {
-    private readonly IPersonRepository _personRepository;
+    public readonly ICreatePersonUseCase _createPersonUseCase;
+    public readonly IDeletePersonUseCase _deletePersonUseCase;
+    public readonly IGetPersonUseCase _getPersonUseCase;
 
-    public PersonController(IPersonRepository personRepository)
+    public PersonController(
+        ICreatePersonUseCase createPersonUseCase, 
+        IDeletePersonUseCase deletePersonUseCase, 
+        IGetPersonUseCase getPersonUseCase)
     {
-        _personRepository = personRepository;
+        _createPersonUseCase = createPersonUseCase;
+        _deletePersonUseCase = deletePersonUseCase;
+        _getPersonUseCase = getPersonUseCase;
     }
-
+    
     [HttpPost]
-    public async Task<IActionResult> CreatePerson([FromBody] Person person)
+    public async Task<IActionResult> Create(CreatePersonRequest request)
     {
-        var created = await _personRepository.CreateAsync(person);
-        return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+        var result = await _createPersonUseCase.ExecuteAsync(request);
+        return Ok(result);
     }
     
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(Guid id)
+    public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var person = await _personRepository.GetByIdAsync(id);
+        var person = await _getPersonUseCase.GetByIdPerson(id, cancellationToken);
         return person is null ? NotFound() : Ok(person);
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
-        var people = await _personRepository.GetAllAsync();
+        var people = await _getPersonUseCase.GetAllPersons(cancellationToken);
         return Ok(people);
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
-        var success = await _personRepository.DeleteAsync(id);
+        var success = await _deletePersonUseCase.ExecuteAsync(id, cancellationToken);
         return success ? NoContent() : NotFound();
     }
 }

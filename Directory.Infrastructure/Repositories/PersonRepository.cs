@@ -21,22 +21,31 @@ public class PersonRepository : IPersonRepository
         return person;
     }
 
-    public async Task<Person?> GetByIdAsync(Guid id)
+    public async Task<Person?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        return await _context.People.FindAsync(id);
+        return await _context.People.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
-    public async Task<List<Person>> GetAllAsync()
+    public async Task<List<Person>> GetAllAsync(CancellationToken cancellationToken)
     {
-        return await _context.People.ToListAsync();
+        return await _context.People.ToListAsync(cancellationToken);
+    }
+    
+    public async Task AddAsync(Person person, CancellationToken cancellationToken)
+    {
+        await _context.People.AddAsync(person, cancellationToken);
     }
 
-    public async Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
-        var person = await _context.People.FindAsync(id);
+        var person = await _context.People
+            .Include(p => p.ContactInformations)
+            .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+        
         if (person == null) return false;
+        
         _context.People.Remove(person);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
         return true;
     }
 }
