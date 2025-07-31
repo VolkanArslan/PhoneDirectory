@@ -1,0 +1,21 @@
+using Microsoft.EntityFrameworkCore;
+using Reporting.Infrastructure;
+using Reporting.Infrastructure.Persistence;
+
+namespace Reporting.API.Engine;
+
+public static class DependencyInjection
+{
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext<ReportingDbContext>(options =>
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+
+        return services;
+    }
+
+    public static IServiceCollection AddApplication(this IServiceCollection services)
+    {
+        return services;
+    }
+}
