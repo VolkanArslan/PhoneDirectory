@@ -9,7 +9,7 @@ namespace Directory.API.Engine;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddRepository(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
@@ -27,6 +27,7 @@ public static class DependencyInjection
         services.AddScoped<IDeleteContactInformationUseCase, DeleteContactInformationUseCase>();
         services.AddScoped<IDeletePersonUseCase, DeletePersonUseCase>();
         services.AddScoped<IGetPersonUseCase, GetPersonUseCase>();
+        services.AddScoped<IGetContactInformationUseCase, GetContactInformationUseCase>();
         
         return services;
     }
