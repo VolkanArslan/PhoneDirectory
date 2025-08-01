@@ -418,3 +418,8 @@ FodyWeavers.xsd
 *.msp
 
 .idea/**
+
+coveragereport/
+TestResults/
+*.coverage
+*.cobertura.xml
