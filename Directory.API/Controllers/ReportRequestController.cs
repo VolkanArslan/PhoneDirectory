@@ -1,5 +1,6 @@
 using Directory.Application.DTOs.Report;
 using Directory.Application.Interfaces;
+using Directory.Application.Interfaces.ReportProducer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Directory.API.Controllers;

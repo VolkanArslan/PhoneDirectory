@@ -1,6 +1,10 @@
 using Directory.Application.Interfaces;
+using Directory.Application.Interfaces.ContactInformation;
+using Directory.Application.Interfaces.Person;
+using Directory.Application.Interfaces.Statistics;
 using Directory.Application.UseCases.ContactInformation;
 using Directory.Application.UseCases.Person;
+using Directory.Application.UseCases.Statistics;
 using Directory.Infrastructure.Persistence;
 using Directory.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +32,7 @@ public static class DependencyInjection
         services.AddScoped<IDeletePersonUseCase, DeletePersonUseCase>();
         services.AddScoped<IGetPersonUseCase, GetPersonUseCase>();
         services.AddScoped<IGetContactInformationUseCase, GetContactInformationUseCase>();
+        services.AddScoped<IGetStatisticsByLocationUseCase, GetStatisticsByLocationUseCase>();
         
         return services;
     }

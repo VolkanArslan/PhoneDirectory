@@ -1,4 +1,5 @@
 using Directory.Application.Interfaces;
+using Directory.Application.Interfaces.ReportProducer;
 using Directory.Infrastructure.Kafka;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

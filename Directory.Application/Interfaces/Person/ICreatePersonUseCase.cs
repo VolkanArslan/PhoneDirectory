@@ -1,6 +1,7 @@
 using Directory.Application.DTOs;
+using Directory.Application.DTOs.Person;
 
-namespace Directory.Application.Interfaces;
+namespace Directory.Application.Interfaces.Person;
 
 public interface ICreatePersonUseCase
 {

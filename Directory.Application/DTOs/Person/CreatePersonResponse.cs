@@ -1,4 +1,4 @@
-namespace Directory.Application.DTOs;
+namespace Directory.Application.DTOs.Person;
 
 public class CreatePersonResponse
 {

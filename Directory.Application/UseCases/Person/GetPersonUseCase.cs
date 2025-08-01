@@ -1,4 +1,5 @@
 using Directory.Application.Interfaces;
+using Directory.Application.Interfaces.Person;
 
 namespace Directory.Application.UseCases.Person;
 

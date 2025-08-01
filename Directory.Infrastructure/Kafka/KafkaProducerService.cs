@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Confluent.Kafka;
 using Directory.Application.Interfaces;
+using Directory.Application.Interfaces.ReportProducer;
 using Microsoft.Extensions.Configuration;
 
 namespace Directory.Infrastructure.Kafka;
