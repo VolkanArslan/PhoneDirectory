@@ -15,7 +15,10 @@ public class ReportService(ReportingDbContext context) : IReportService
                 Id = r.Id,
                 Location = r.Location,
                 RequestedAt = r.RequestedAt,
-                Status = r.Status.ToString()
+                Status = r.Status.ToString(),
+                PersonCount = r.PersonCount,
+                PhoneNumberCount = r.PhoneNumberCount,
+                EmailCount = r.EmailCount
             })
             .ToListAsync(cancellationToken);
     }
@@ -31,7 +34,10 @@ public class ReportService(ReportingDbContext context) : IReportService
             Id = report.Id,
             Location = report.Location,
             RequestedAt = report.RequestedAt,
-            Status = report.Status.ToString()
+            Status = report.Status.ToString(),
+            PersonCount = report.PersonCount,
+            PhoneNumberCount = report.PhoneNumberCount,
+            EmailCount = report.EmailCount
         };
     }
 }

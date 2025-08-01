@@ -1,9 +1,11 @@
+using System.Net.Http.Json;
 using System.Text.Json;
 using Confluent.Kafka;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Reporting.Application.DTOs.Consumer;
+using Reporting.Application.DTOs.Statistics;
 using Reporting.Domain.Entities;
 using Reporting.Domain.Enums;
 using Reporting.Infrastructure.Persistence;
@@ -48,12 +50,33 @@ public class ReportRequestConsumer(IServiceProvider serviceProvider, IConfigurat
 
                     db.Reports.Add(report);
                     await db.SaveChangesAsync(stoppingToken);
+                    
+                    var stats = await GetLocationStatisticsAsync(report.Location, stoppingToken);
+
+                    if (stats != null)
+                    {
+                        report.PersonCount = stats.PersonCount;
+                        report.PhoneNumberCount = stats.PhoneNumberCount;
+                        report.EmailCount = stats.EmailCount;
+                        report.Status = ReportStatus.Completed;
+
+                        db.Reports.Update(report);
+                        await db.SaveChangesAsync(stoppingToken);
+                    }
                 }
             }
             catch (Exception ex)
             {
                 // logger
+                Console.WriteLine($"Kafka consumer error: {ex.Message}");
             }
         }
+    }
+    
+    private async Task<ReportStatisticsDto?> GetLocationStatisticsAsync(string location, CancellationToken cancellationToken)
+    {
+        using var httpClient = new HttpClient();
+        var url = $"https://localhost:44364/api/statistics/{location}";
+        return await httpClient.GetFromJsonAsync<ReportStatisticsDto>(url, cancellationToken);
     }
 }
