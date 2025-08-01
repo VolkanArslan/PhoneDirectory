@@ -14,7 +14,7 @@ public class GetStatisticsByLocationUseCase(IPersonRepository personRepository) 
 
         var personCount = peopleAtLocation.Count;
 
-        var phoneCount = peopleAtLocation
+        var phoneNumberCount = peopleAtLocation
             .SelectMany(p => p.ContactInformations)
             .Count(ci => ci.Type == ContactType.Phone);
 
@@ -26,7 +26,7 @@ public class GetStatisticsByLocationUseCase(IPersonRepository personRepository) 
         {
             Location = location,
             PersonCount = personCount,
-            PhoneCount = phoneCount,
+            PhoneNumberCount = phoneNumberCount,
             EmailCount = emailCount
         };
     }

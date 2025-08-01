@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Reporting.Application.DTOs.Consumer;
 using Reporting.Application.DTOs.Statistics;
-using Reporting.Domain.Entities;
+using Reporting.Application.Interfaces;
 using Reporting.Domain.Enums;
 using Reporting.Infrastructure.Persistence;
 
@@ -36,34 +36,11 @@ public class ReportRequestConsumer(IServiceProvider serviceProvider, IConfigurat
 
                 var reportRequest = JsonSerializer.Deserialize<ReportRequestDto>(consumeResult.Message.Value);
 
-                using (var scope = serviceProvider.CreateScope())
-                {
-                    var db = scope.ServiceProvider.GetRequiredService<ReportingDbContext>();
+                using var scope = serviceProvider.CreateScope();
+                var handler = scope.ServiceProvider.GetRequiredService<IReportMessageHandler>();
 
-                    var report = new Report
-                    {
-                        Id = Guid.NewGuid(),
-                        Location = reportRequest?.Location ?? "Unknown",
-                        RequestedAt = DateTime.UtcNow,
-                        Status = ReportStatus.Preparing
-                    };
-
-                    db.Reports.Add(report);
-                    await db.SaveChangesAsync(stoppingToken);
-                    
-                    var stats = await GetLocationStatisticsAsync(report.Location, stoppingToken);
-
-                    if (stats != null)
-                    {
-                        report.PersonCount = stats.PersonCount;
-                        report.PhoneNumberCount = stats.PhoneNumberCount;
-                        report.EmailCount = stats.EmailCount;
-                        report.Status = ReportStatus.Completed;
-
-                        db.Reports.Update(report);
-                        await db.SaveChangesAsync(stoppingToken);
-                    }
-                }
+                if (reportRequest != null)
+                    await handler.HandleAsync(reportRequest, stoppingToken);
             }
             catch (Exception ex)
             {

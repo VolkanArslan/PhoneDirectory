@@ -2,7 +2,6 @@ namespace Directory.Application.Interfaces.Person;
 
 public interface IPersonRepository
 {
-    Task<Domain.Entities.Person> CreateAsync(Domain.Entities.Person person);
     Task<Domain.Entities.Person?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     Task<List<Domain.Entities.Person>> GetAllAsync(CancellationToken cancellationToken);
     Task AddAsync(Domain.Entities.Person person, CancellationToken cancellationToken);

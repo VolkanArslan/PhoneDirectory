@@ -8,13 +8,6 @@ namespace Directory.Infrastructure.Repositories;
 
 public class PersonRepository(ApplicationDbContext context) : IPersonRepository
 {
-    public async Task<Person> CreateAsync(Person person)
-    {
-        context.People.Add(person);
-        await context.SaveChangesAsync();
-        return person;
-    }
-
     public async Task<Person?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return await context.People.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
