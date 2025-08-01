@@ -22,6 +22,7 @@ Proje root dizinde "docker-compose up -d" komutu ile Kafka ve Zookeeper containe
 Projede Directory ve Reporting olmak üzere iki mikroservis yer almaktadır. Bu mikroservisler için database update komutları çalıştırılır.
 
 dotnet ef database update --project Directory/Directory.Infrastructure
+
 dotnet ef database update --project Reporting/Reporting.Infrastructure
 
 Uygulama ayağa kaldırılırken Directory.API ve Reporting.API projeleri birlikte başlatılır.
