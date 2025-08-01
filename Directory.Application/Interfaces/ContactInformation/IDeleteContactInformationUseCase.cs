@@ -1,4 +1,4 @@
-namespace Directory.Application.Interfaces;
+namespace Directory.Application.Interfaces.ContactInformation;
 
 public interface IDeleteContactInformationUseCase
 {

@@ -1,4 +1,5 @@
 using Directory.Application.Interfaces;
+using Directory.Application.Interfaces.ContactInformation;
 
 namespace Directory.Application.UseCases.ContactInformation;
 

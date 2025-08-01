@@ -1,6 +1,6 @@
 using Directory.Application.DTOs.ContactInformation;
 
-namespace Directory.Application.Interfaces;
+namespace Directory.Application.Interfaces.ContactInformation;
 
 public interface ICreateContactInformationUseCase
 {

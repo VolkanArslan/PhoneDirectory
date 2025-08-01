@@ -1,5 +1,7 @@
 using Directory.Application.DTOs;
+using Directory.Application.DTOs.Person;
 using Directory.Application.Interfaces;
+using Directory.Application.Interfaces.Person;
 
 namespace Directory.Application.UseCases.Person;
 

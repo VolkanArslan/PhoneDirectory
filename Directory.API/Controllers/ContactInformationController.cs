@@ -1,5 +1,6 @@
 using Directory.Application.DTOs.ContactInformation;
 using Directory.Application.Interfaces;
+using Directory.Application.Interfaces.ContactInformation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Directory.API.Controllers;
